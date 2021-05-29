@@ -144,15 +144,15 @@ class Main extends MY_Controller {
         redirect('main');
     }
 
-    public function halo($value)
+    public function halo()
     {
+        $value = $this->uri->segment(2);
         var_dump($value);
     }
 
-    function hapus($rowid) 
+    function hapus()
     {
         $rowid = $this->uri->segment(2);
-        var_dump($rowid);
         if ($rowid=="all")
             {
                 $this->cart->destroy();
@@ -163,7 +163,7 @@ class Main extends MY_Controller {
                               'qty' =>0);
                 $this->cart->update($data);
             }
-        // redirect('tampil_cart');
+        redirect('tampil_cart');
     }
 
     function ubah_cart()
@@ -190,7 +190,8 @@ class Main extends MY_Controller {
     {
         //-------------------------Input data pemesanan--------------------------
         $data_pemesanan = array('nama' => $this->input->post('nama'),
-                                'tanggal' => date('Y-m-d'));
+                                'tanggal' => date('Y-m-d'),
+                                'total_harga' => $this->input->post('total_harga'));
         $id_pemesanan = $this->md_main->pemesanan($data_pemesanan);
         //-------------------------Input data detail order-----------------------       
         if ($cart = $this->cart->contents())
@@ -200,7 +201,7 @@ class Main extends MY_Controller {
                         $data_detail = array('id_pemesanan' =>$id_pemesanan,
                                         'id_produk' => $item['id'],
                                         'qty' => $item['qty'],
-                                        'total_harga' => ($item['price'] * $item['qty']));         
+                                        'total' => ($item['price'] * $item['qty']));         
                         $proses = $this->md_main->tambah_detail_order($data_detail);
                     }
             }

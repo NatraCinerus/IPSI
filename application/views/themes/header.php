@@ -42,7 +42,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a href="<?php echo base_url()?>">Home</a></li>
+            <li class="active"><a href="<?php echo base_url()?>">Daftar Menu</a></li>
             <li><a href="<?php echo base_url('tampil_cart')?>"><i class="glyphicon glyphicon-shopping-cart"></i>  Keranjang Belanja</a></li>
           </ul>
         </div><!--/.nav-collapse -->

@@ -54,7 +54,7 @@ $route['logout'] = 'verifikator/logout';
 $route['tambah'] = "main/tambah";
 $route['tampil_cart'] = "main/tampil_cart";
 $route['ubah_cart'] = "main/ubah_cart";
-$route['delete/:num'] = "main/halo";
+$route['delete/:any'] = "main/hapus";
 $route['check_out'] = "main/check_out";
 $route['proses_order'] = "main/proses_order";
 
