@@ -41,12 +41,23 @@
 $route['default_controller'] = "main";
 $route['404_override'] = '';
 $route['menu'] = "main/menu";
+$route['panel'] = "main/panel";
+
 $route['addMenu'] = 'main/addMenu';
 $route['hapus/:num'] = 'main/delete';
 $route['edit/:num'] = 'main/edit';
+
 $route['login'] = 'verifikator/login';
 $route['register'] = 'verifikator/register';
 $route['logout'] = 'verifikator/logout';
+
+$route['tambah'] = "main/tambah";
+$route['tampil_cart'] = "main/tampil_cart";
+$route['ubah_cart'] = "main/ubah_cart";
+$route['delete/:num'] = "main/halo";
+$route['check_out'] = "main/check_out";
+$route['proses_order'] = "main/proses_order";
+
 
 
 /* End of file routes.php */

@@ -32,7 +32,7 @@ class Verifikator extends MY_Controller {
 
 			$this->session->set_userdata($data_session);
 			$this->md_main->update_last_login($username);
-			redirect('main');
+			redirect('panel');
 
 		}else{
 			$this->session->set_flashdata('attempt', 'fail');
