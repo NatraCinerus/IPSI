@@ -16,6 +16,38 @@ class md_main extends CI_Model {
         $barang = $this->db->get('produk');
         return $barang;
     }
+
+    public function list_pesanan()
+    {
+        $query = $this->db->get('pemesanan');
+        return $query;
+    }
+
+    public function detail_pesanan()
+    {
+        $this->db->select('*');
+        $this->db->from('produk');
+        $this->db->join('detail_pemesanan', 'detail_pemesanan.id_produk = produk.idProduk');
+        $query = $this->db->get();
+        return $query;
+    }
+    public function hapus_detail($id)
+    {
+        $this->db->where('id_pemesanan',$id);
+        $this->db->delete('pemesanan');
+
+        $this->db->where('id_pemesanan',$id);
+        $this->db->delete('detail_pemesanan');
+    }
+    public function status($status, $id)
+    {
+        var_dump($status);
+        echo "===";
+        var_dump($id);
+        $data = array('status' => $status );
+        $this->db->where('id_pemesanan',$id);
+        $this->db->update('pemesanan', $data);
+    }
     public function product($id)
     {
         return $this->db->get_where('produk',array('idProduk'=>$id));
@@ -61,9 +93,9 @@ class md_main extends CI_Model {
     public function get_produk_kategori($kategori)
     {
         if($kategori>0)
-            {
-                $this->db->where('kategori',$kategori);
-            }
+        {
+            $this->db->where('kategori',$kategori);
+        }
         $query = $this->db->get('tbl_produk');
         return $query->result_array();
     }
@@ -88,6 +120,13 @@ class md_main extends CI_Model {
         $this->db->insert('pemesanan', $data);
         $id = $this->db->insert_id();
         return (isset($id)) ? $id : FALSE;
+    }
+
+    public function notif($id_pemesanan)
+    {
+        $this->db->where('id_pemesanan',$id_pemesanan);
+        $query = $this->db->get('pemesanan');
+        return $query;
     }
     
     public function tambah_order($data)

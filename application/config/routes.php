@@ -40,8 +40,15 @@
 
 $route['default_controller'] = "main";
 $route['404_override'] = '';
+
+$route['user'] = "main/user";
+
 $route['menu'] = "main/menu";
 $route['panel'] = "main/panel";
+$route['pesanan'] = "main/pesanan";
+$route['detail'] = "main/detail";
+$route['hapus_detail/:num'] = "main/hapus_detail";
+$route['status'] = "main/status";
 
 $route['addMenu'] = 'main/addMenu';
 $route['hapus/:num'] = 'main/delete';
@@ -57,6 +64,7 @@ $route['ubah_cart'] = "main/ubah_cart";
 $route['delete/:any'] = "main/hapus";
 $route['check_out'] = "main/check_out";
 $route['proses_order'] = "main/proses_order";
+$route['notif'] = "main/notif";
 
 
 

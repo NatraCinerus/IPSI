@@ -23,6 +23,7 @@ class Main extends MY_Controller {
         $this->views('dashboard/index');
     }
 
+    //fungsi dasboard menu 
 	public function menu(){
         if($this->session->userdata('status') != "login"){
             redirect(base_url("login"));
@@ -56,7 +57,7 @@ class Main extends MY_Controller {
           $file_name = $image['file_name'];
         }
         $data['input_simpan'] = $this->md_main->input_simpan($file_name);
-
+        $this->session->set_flashdata('crud_menu', 'tambah');
         redirect('main/menu');
 	}
 
@@ -64,7 +65,7 @@ class Main extends MY_Controller {
     {
         $id = $this->uri->segment(2);
         $data['delete'] = $this->md_main->hapus($id);
-        $this->session->set_flashdata('hapus', 'success');
+        $this->session->set_flashdata('crud_menu', 'hapus');
         redirect('main/menu');
     }
 
@@ -101,12 +102,61 @@ class Main extends MY_Controller {
           $data['input_simpan'] = $this->md_main->edit_simpan($file_name,$id);
         }
         
-
+        $this->session->set_flashdata('crud_menu', 'edit');
         redirect('main/menu');
     }
+
+    //fungsi dashboard pesanan
+
+    public function pesanan()
+    {
+        if($this->session->userdata('status') != "login"){
+            redirect(base_url("login"));
+        }
+        $data['pesanan'] = $this->md_main->list_pesanan()->result_array();
+        $data['detail_pesanan'] = $this->md_main->detail_pesanan()->result_array();
+        $data['produk'] = $this->md_main->get_produk_all();
+        $this->views('pesanan/index',$data);
+    }
+
+    public function detail()
+    {
+        $id = $this->input->post('id');
+        $data['hasil']=$this->md_main->getId($id);
+        $this->load->view('pesanan/get',$data);
+    }
+
+    public function hapus_detail()
+    {
+        $id = $this->uri->segment(2);
+        $data['delete'] = $this->md_main->hapus_detail($id);
+        $this->session->set_flashdata('crud_pesan', 'hapus');
+        redirect('pesanan');
+    }
+    public function status()
+    {
+        $status = $this->input->post('status');
+        $id_pemesanan = $this->input->post('id_pemesanan');
+        $this->md_main->status($status, $id_pemesanan);
+        $this->session->set_flashdata('crud_pesan', 'edit');
+        redirect('pesanan');
+    }
+
     //fungsi pemesanan
-
-
+    public function notif()
+    {
+        $id_pemesanan = $this->session->userdata('id_pemesanan');
+        $data = $this->md_main->notif($id_pemesanan)->row();
+        if ($data->status == 'selesai') {
+            $status = "Pesanan Segera Menuju Anda";
+        }elseif ($data->status == 'dibatalkan') {
+            $status = "Proses Pemesanan Anda Dibatalkan, Silahkan Hubungi Pelayan";
+        }else{
+            $status = "Proses Pemesanan Sedang Diproses";
+        }
+        
+        echo $status;
+    }
     public function tampil_cart()
     {
         $this->load->view('themes/header');
@@ -142,12 +192,6 @@ class Main extends MY_Controller {
                             );
         $this->cart->insert($data_produk);
         redirect('main');
-    }
-
-    public function halo()
-    {
-        $value = $this->uri->segment(2);
-        var_dump($value);
     }
 
     function hapus()
@@ -191,8 +235,10 @@ class Main extends MY_Controller {
         //-------------------------Input data pemesanan--------------------------
         $data_pemesanan = array('nama' => $this->input->post('nama'),
                                 'tanggal' => date('Y-m-d'),
-                                'total_harga' => $this->input->post('total_harga'));
+                                'total_harga' => $this->input->post('total_harga'),
+                                'status' => 'diproses');
         $id_pemesanan = $this->md_main->pemesanan($data_pemesanan);
+        $this->session->set_flashdata('id_pemesanan', $id_pemesanan);
         //-------------------------Input data detail order-----------------------       
         if ($cart = $this->cart->contents())
             {
